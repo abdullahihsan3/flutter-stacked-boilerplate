@@ -8,12 +8,18 @@ class HomeView extends StackedView<HomeViewModel> {
   @override
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home View')),
-      body: const Center(
-        child: Text('Home View'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: viewModel.navigateToSecondView,
+      appBar: AppBar(title: const Text('Posts')),
+      body: Center(
+        child: viewModel.isBusy
+            ? const CircularProgressIndicator()
+            : ListView.builder(
+                itemCount: viewModel.data!.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(viewModel.data![index].title),
+                  );
+                },
+              ),
       ),
     );
   }
