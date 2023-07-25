@@ -6,20 +6,39 @@ class HomeView extends StackedView<HomeViewModel> {
   const HomeView({super.key});
 
   @override
+  void onViewModelReady(HomeViewModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.getPosts();
+  }
+
+  @override
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Posts')),
+      appBar: AppBar(
+        title: const Text('Posts', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
+      ),
       body: Center(
-        child: viewModel.isBusy
+        child: viewModel.busy(busyObject)
             ? const CircularProgressIndicator()
-            : ListView.builder(
-                itemCount: viewModel.data!.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(viewModel.data![index].title),
-                  );
-                },
-              ),
+            : !viewModel.hasPosts
+                ? const Text('No posts to show')
+                : RefreshIndicator(
+                    onRefresh: viewModel.onRefresh,
+                    child: ListView.separated(
+                      itemCount: viewModel.posts.length,
+                      separatorBuilder: (context, index) {
+                        return const Divider();
+                      },
+                      itemBuilder: (context, index) {
+                        final post = viewModel.posts[index];
+
+                        return ListTile(
+                          title: Text(post.title),
+                        );
+                      },
+                    ),
+                  ),
       ),
     );
   }
