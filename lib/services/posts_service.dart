@@ -11,7 +11,7 @@ class PostsService {
   final _apiService = locator<ApiService>();
 
   Future<List<Post>> getAllPosts() async {
-    final ApiResponse response = await _apiService.get(url: postsUrl);
+    final ApiResponse response = await _apiService.get(url: AppUrls.postsUrl);
     return response.data.map((post) => Post.fromJson(post)).toList();
   }
 }

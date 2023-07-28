@@ -1,2 +1,4 @@
-const String baseUrl = 'https://jsonplaceholder.typicode.com';
-const String postsUrl = '/posts';
+class AppUrls {
+  static const String baseUrl = 'https://jsonplaceholder.typicode.com';
+  static const String postsUrl = '/posts';
+}

@@ -6,9 +6,8 @@ import 'package:flutter_stacked_starter/services/posts_service.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../app/app.locator.dart';
+import '../../constants/app_keys.dart';
 import '../../models/application_models.dart';
-
-const String busyObject = 'postsView';
 
 class HomeViewModel extends BaseViewModel {
   final log = getLogger('HomeViewModel');
@@ -25,7 +24,7 @@ class HomeViewModel extends BaseViewModel {
       _posts = await runBusyFuture(
         _postsService.getAllPosts(),
         throwException: true,
-        busyObject: setViewToBusy ? busyObject : null,
+        busyObject: setViewToBusy ? AppKeys.homeViewBusy : null,
       );
     } on DioException catch (e) {
       log.e('DioException occurred: $e');
